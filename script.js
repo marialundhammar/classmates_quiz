@@ -172,11 +172,23 @@ console.log(randomize(students));
 
 //show image
 const displayImg = document.querySelector("#img-container");
+const button1 = document.querySelector("#button-1");
+const button2 = document.querySelector("#button-2");
+const button3 = document.querySelector("#button-3");
+const button4 = document.querySelector("#button-4");
+
 displayImg.setAttribute("src", students[0].image);
 
+const arrayAnswer = [students[0], students[1], students[2], students[3]];
+
+randomize(arrayAnswer);
+
+button1.innerHTML = arrayAnswer[0].name;
+button2.innerHTML = arrayAnswer[1].name;
+button3.innerHTML = arrayAnswer[2].name;
+button4.innerHTML = arrayAnswer[3].name;
+
 //take input from user
-addEventListener("click", (e) => {});
-//check input from user
 
 //right answer?
 
