@@ -157,25 +157,12 @@ const students = [
   },
 ];
 
-const missing_students = [
-  {
-    name: "Andjela Saponjic",
-    image: null,
-  },
-  {
-    name: "Cazpian Levén",
-    image: null,
-  },
-  {
-    name: "Frida Lam",
-    image: null,
-  },
-  {
-    name: "Maxim Khnykin",
-    image: null,
-  },
-  {
-    name: "Philip Le",
-    image: null,
-  },
-];
+//show random image
+
+//take input from user
+
+//check input from user
+
+//right answer?
+
+//wrong answer?
