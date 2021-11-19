@@ -157,10 +157,25 @@ const students = [
   },
 ];
 
-//show random image
+//get random dude
+
+let randomize = (arr) => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+};
+
+//randomize students
+randomize(students);
+console.log(randomize(students));
+
+//show image
+const displayImg = document.querySelector("#img-container");
+displayImg.setAttribute("src", students[0].image);
 
 //take input from user
-
+addEventListener("click", (e) => {});
 //check input from user
 
 //right answer?
