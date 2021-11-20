@@ -168,7 +168,6 @@ let randomize = (arr) => {
 
 //randomize students
 randomize(students);
-console.log(randomize(students));
 
 //show image
 const displayImg = document.querySelector("#img-container");
@@ -176,20 +175,48 @@ const button1 = document.querySelector("#button-1");
 const button2 = document.querySelector("#button-2");
 const button3 = document.querySelector("#button-3");
 const button4 = document.querySelector("#button-4");
+const buttonContainer = document.querySelector("#button-container");
 
-displayImg.setAttribute("src", students[0].image);
+const newQuestion = () => {
+  displayImg.setAttribute("src", students[0].image);
 
-const arrayAnswer = [students[0], students[1], students[2], students[3]];
+  const arrayAnswer = [students[0], students[1], students[2], students[3]];
 
-randomize(arrayAnswer);
+  randomize(arrayAnswer);
 
-button1.innerHTML = arrayAnswer[0].name;
-button2.innerHTML = arrayAnswer[1].name;
-button3.innerHTML = arrayAnswer[2].name;
-button4.innerHTML = arrayAnswer[3].name;
+  button1.innerHTML = arrayAnswer[0].name;
+  button2.innerHTML = arrayAnswer[1].name;
+  button3.innerHTML = arrayAnswer[2].name;
+  button4.innerHTML = arrayAnswer[3].name;
+};
 
-//take input from user
+newQuestion();
 
-//right answer?
+let correctAnswer = 0;
+let wrongAnswer = 0;
+let amountOfGuesses = 0;
 
-//wrong answer?
+buttonContainer.addEventListener("click", (e) => {
+  //take input from user
+  amountOfGuesses++;
+
+  if (e.target.innerHTML === students[0].name) {
+    correctAnswer++;
+    console.log("correct answer: " + correctAnswer + ", amounts of guesses: " + amountOfGuesses);
+  } else {
+    wrongAnswer++;
+    console.log("not correct answer:" + wrongAnswer + ", amounts of guesses: " + amountOfGuesses);
+  }
+
+  randomize(students);
+  newQuestion();
+
+  if (amountOfGuesses === 20) {
+    alert(
+      "You Guesses " + amountOfGuesses + " time and " + correctAnswer + " was correct and " + wrongAnswer + "was wrong "
+    );
+    correctAnswer = 0;
+    wrongAnswer = 0;
+    amountOfGuesses = 0;
+  }
+});
