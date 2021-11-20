@@ -157,8 +157,15 @@ const students = [
   },
 ];
 
-//get random dude
+//show image
+const displayImg = document.querySelector("#img-container");
+const button1 = document.querySelector("#button-1");
+const button2 = document.querySelector("#button-2");
+const button3 = document.querySelector("#button-3");
+const button4 = document.querySelector("#button-4");
+const buttonContainer = document.querySelector("#button-container");
 
+//get random dude
 let randomize = (arr) => {
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -169,20 +176,17 @@ let randomize = (arr) => {
 //randomize students
 randomize(students);
 
-//show image
-const displayImg = document.querySelector("#img-container");
-const button1 = document.querySelector("#button-1");
-const button2 = document.querySelector("#button-2");
-const button3 = document.querySelector("#button-3");
-const button4 = document.querySelector("#button-4");
-const buttonContainer = document.querySelector("#button-container");
-
 const newQuestion = () => {
   displayImg.setAttribute("src", students[0].image);
 
   const arrayAnswer = [students[0], students[1], students[2], students[3]];
 
   randomize(arrayAnswer);
+
+  button1.setAttribute("data-user", arrayAnswer[0].name);
+  button2.setAttribute("data-user", arrayAnswer[1].name);
+  button3.setAttribute("data-user", arrayAnswer[2].name);
+  button4.setAttribute("data-user", arrayAnswer[3].name);
 
   button1.innerHTML = arrayAnswer[0].name;
   button2.innerHTML = arrayAnswer[1].name;
@@ -195,17 +199,24 @@ newQuestion();
 let correctAnswer = 0;
 let wrongAnswer = 0;
 let amountOfGuesses = 0;
+const arrayOfCorrectAnswer = [];
+const arrayOfWrongAnswer = [];
 
 buttonContainer.addEventListener("click", (e) => {
   //take input from user
   amountOfGuesses++;
-
-  if (e.target.innerHTML === students[0].name) {
+  console.log(e);
+  console.log(e.target.dataset.user);
+  if (e.target.dataset.user === students[0].name) {
     correctAnswer++;
     console.log("correct answer: " + correctAnswer + ", amounts of guesses: " + amountOfGuesses);
+    arrayOfCorrectAnswer.push(students[0].name);
+    console.log(arrayOfCorrectAnswer);
   } else {
     wrongAnswer++;
     console.log("not correct answer:" + wrongAnswer + ", amounts of guesses: " + amountOfGuesses);
+    arrayOfWrongAnswer.push(e.target.dataset.user);
+    console.log(arrayOfWrongAnswer);
   }
 
   randomize(students);
@@ -213,7 +224,14 @@ buttonContainer.addEventListener("click", (e) => {
 
   if (amountOfGuesses === 20) {
     alert(
-      "You Guesses " + amountOfGuesses + " time and " + correctAnswer + " was correct and " + wrongAnswer + "was wrong "
+      "You Guesses " +
+        amountOfGuesses +
+        " time and " +
+        correctAnswer +
+        " was correct and " +
+        wrongAnswer +
+        " was wrong,  you guessed wrong on \n " +
+        arrayOfWrongAnswer.join("\n")
     );
     correctAnswer = 0;
     wrongAnswer = 0;
