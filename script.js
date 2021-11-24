@@ -163,6 +163,7 @@ const buttonAll = document.querySelectorAll(".buttonGuess");
 const buttonContainer = document.querySelector("#button-container");
 const startContainer = document.querySelector("#start-container");
 const restartGame = document.querySelector("#restart-game");
+const congratz = document.querySelector("#restart-game p");
 
 //get random dude
 let randomize = (arr) => {
@@ -171,6 +172,10 @@ let randomize = (arr) => {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 };
+
+/* buttonAll = selectedStudents.map((student) => {
+    document.createElement("button");
+}) */
 
 const reset = () => {
   correctAnswer = 0;
@@ -184,8 +189,7 @@ const arrayOfImgLeft = students;
 let correctName;
 let selectedStudent;
 
-const newQuestion = (interval) => {
-  clearInterval(interval);
+const newQuestion = () => {
   //randomize students
   selectedStudent = arrayOfImgLeft.shift();
   correctName = selectedStudent.name;
@@ -205,38 +209,40 @@ const newQuestion = (interval) => {
 newQuestion();
 reset();
 
-buttonContainer.addEventListener("click", (e) => {
-  amountOfGuesses++;
+buttonAll.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    amountOfGuesses++;
 
-  if (e.target.dataset.user === correctName) {
-    correctAnswer++;
-    e.target.classList.add("correctStudent");
-  } else {
-    e.target.classList.add("wrongStudent");
-    wrongAnswer++;
-  }
+    if (e.target.dataset.user === correctName) {
+      correctAnswer++;
+      e.target.classList.add("correctStudent");
+    } else {
+      e.target.classList.add("wrongStudent");
+      correctButton = buttonAll.forEach((button) => {
+        if (button.dataset.user === correctName) {
+          button.classList.add("correctStudent");
+        }
+      });
+      wrongAnswer++;
+    }
 
-  const interval = setInterval(() => {
-    e.target.classList.remove("correctStudent");
-    e.target.classList.remove("wrongStudent");
-    newQuestion(interval);
-  }, 600);
+    const interval = setInterval(() => {
+      e.target.classList.remove("correctStudent");
+      e.target.classList.remove("wrongStudent");
+      if (amountOfGuesses === 3) {
+        congratz.innerHTML = " This is your result:  " + correctAnswer + " / " + amountOfGuesses;
 
-  if (amountOfGuesses === 5) {
-    /*    alert(
-              "You Guesses " +
-                amountOfGuesses +
-                " time and " +
-                correctAnswer +
-                " was correct and " +
-                wrongAnswer +
-                " was wrong."
-            ); */
-    restartGame.classList.add("show");
-    startContainer.classList.add("hide");
-  }
+        restartGame.classList.add("show");
+        startContainer.classList.add("hide");
+        clearInterval(interval);
+      } else {
+        newQuestion();
+        clearInterval(interval);
+      }
+    }, 600);
 
-  randomize(arrayOfImgLeft);
+    randomize(arrayOfImgLeft);
+  });
 });
 
 restartGame.addEventListener("click", (e) => {
