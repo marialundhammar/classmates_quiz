@@ -16,14 +16,52 @@
     <title>Inlamningsuppgift</title>
   </head>
 
-    <img src="" alt="" id="img-container"/>
+    <div class = "container">
 
-    <div id="button-container">
-      <button type="button" class="btn btn-dark" id="button-2" data-user= "">button2</button>
-      <button type="button" class="btn btn-dark" id="button-1" data-user = "">button1</button>
-      <button type="button" class="btn btn-dark" id="button-3" data-user="">button3</button>
-      <button type="button" class="btn btn-dark" id="button-4" data-user="">button4</button>
+        <div id="start-container" class = "row justify-content-sm-center">
+
+            <h1 class =  "text-center">Who is this?</h1>
+    
+            <img src="" alt="" id="img-container" class = "col-sm-6"/>
+
+            <div id="thumbs-upDown"> </div>
+    
+            <div id="button-container" class = "row container-fluid justify-content-sm-center">
+       
+                <button type="button" class="btn btn-dark col-sm-4 buttonGuess"  data-user= "">button2</button>
+             
+                <button type="button" class="btn btn-dark col-sm-4 buttonGuess"  data-user = "">button1</button> 
+
+                <button type="button" class="btn btn-dark col-sm-4 buttonGuess" data-user="">button3</button>
+                
+                <button type="button" class="btn btn-dark col-sm-4 buttonGuess" data-user="">button4</button>
+
+                
+            </div>
+        </div>
+
+        
+
+        <div id="restart-game" class="row container-fluid justify-content-sm-center">
+            <button type="button" class="btn btn-success col-sm-4">Restart Game</button>
+        </div>
+    
+        <section id="display-answers">
+            <div id = "wrongAnswers">
+                <img src="" alt="" id="wrongAnswersImage">
+            </div>
+    
+            <div id="correctAnswers">
+                <img src="" alt="" id="correctAnswersImage">
+            </div>
+    
+        </section>
+
     </div>
+    
+
+    
+       
 
     <script src="script.js"></script>
   </body>

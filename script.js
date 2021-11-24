@@ -159,11 +159,10 @@ const students = [
 
 //show image
 const displayImg = document.querySelector("#img-container");
-const button1 = document.querySelector("#button-1");
-const button2 = document.querySelector("#button-2");
-const button3 = document.querySelector("#button-3");
-const button4 = document.querySelector("#button-4");
+const buttonAll = document.querySelectorAll(".buttonGuess");
 const buttonContainer = document.querySelector("#button-container");
+const startContainer = document.querySelector("#start-container");
+const restartGame = document.querySelector("#restart-game");
 
 //get random dude
 let randomize = (arr) => {
@@ -173,68 +172,78 @@ let randomize = (arr) => {
   }
 };
 
-//randomize students
+const reset = () => {
+  correctAnswer = 0;
+  wrongAnswer = 0;
+  amountOfGuesses = 0;
+};
+
 randomize(students);
+const arrayOfImgLeft = students;
 
-const newQuestion = () => {
-  displayImg.setAttribute("src", students[0].image);
+let correctName;
+let selectedStudent;
 
-  const arrayAnswer = [students[0], students[1], students[2], students[3]];
+const newQuestion = (interval) => {
+  clearInterval(interval);
+  //randomize students
+  selectedStudent = arrayOfImgLeft.shift();
+  correctName = selectedStudent.name;
+  correctImg = selectedStudent.image;
+  displayImg.setAttribute("src", selectedStudent.image);
+
+  const arrayAnswer = [selectedStudent, arrayOfImgLeft[1], arrayOfImgLeft[2], arrayOfImgLeft[3]];
 
   randomize(arrayAnswer);
 
-  button1.setAttribute("data-user", arrayAnswer[0].name);
-  button2.setAttribute("data-user", arrayAnswer[1].name);
-  button3.setAttribute("data-user", arrayAnswer[2].name);
-  button4.setAttribute("data-user", arrayAnswer[3].name);
-
-  button1.innerHTML = arrayAnswer[0].name;
-  button2.innerHTML = arrayAnswer[1].name;
-  button3.innerHTML = arrayAnswer[2].name;
-  button4.innerHTML = arrayAnswer[3].name;
+  buttonAll.forEach((button, index) => {
+    button.innerHTML = arrayAnswer[index].name;
+    button.setAttribute("data-user", arrayAnswer[index].name);
+  });
 };
 
 newQuestion();
-
-let correctAnswer = 0;
-let wrongAnswer = 0;
-let amountOfGuesses = 0;
-const arrayOfCorrectAnswer = [];
-const arrayOfWrongAnswer = [];
+reset();
 
 buttonContainer.addEventListener("click", (e) => {
-  //take input from user
   amountOfGuesses++;
-  console.log(e);
-  console.log(e.target.dataset.user);
-  if (e.target.dataset.user === students[0].name) {
+
+  if (e.target.dataset.user === correctName) {
     correctAnswer++;
-    console.log("correct answer: " + correctAnswer + ", amounts of guesses: " + amountOfGuesses);
-    arrayOfCorrectAnswer.push(students[0].name);
-    console.log(arrayOfCorrectAnswer);
+    e.target.classList.add("correctStudent");
   } else {
+    e.target.classList.add("wrongStudent");
     wrongAnswer++;
-    console.log("not correct answer:" + wrongAnswer + ", amounts of guesses: " + amountOfGuesses);
-    arrayOfWrongAnswer.push(e.target.dataset.user);
-    console.log(arrayOfWrongAnswer);
   }
 
-  randomize(students);
-  newQuestion();
+  const interval = setInterval(() => {
+    e.target.classList.remove("correctStudent");
+    e.target.classList.remove("wrongStudent");
+    newQuestion(interval);
+  }, 600);
 
-  if (amountOfGuesses === 20) {
-    alert(
-      "You Guesses " +
-        amountOfGuesses +
-        " time and " +
-        correctAnswer +
-        " was correct and " +
-        wrongAnswer +
-        " was wrong,  you guessed wrong on \n " +
-        arrayOfWrongAnswer.join("\n")
-    );
-    correctAnswer = 0;
-    wrongAnswer = 0;
-    amountOfGuesses = 0;
+  if (amountOfGuesses === 5) {
+    /*    alert(
+              "You Guesses " +
+                amountOfGuesses +
+                " time and " +
+                correctAnswer +
+                " was correct and " +
+                wrongAnswer +
+                " was wrong."
+            ); */
+    restartGame.classList.add("show");
+    startContainer.classList.add("hide");
   }
+
+  randomize(arrayOfImgLeft);
 });
+
+restartGame.addEventListener("click", (e) => {
+  newQuestion();
+  reset();
+  startContainer.classList.remove("hide");
+  restartGame.classList.remove("show");
+});
+
+//local storage
