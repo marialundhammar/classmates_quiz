@@ -172,29 +172,24 @@ let randomize = (arr) => {
   }
 };
 
-//reset-function
-const reset = () => {
-  correctAnswer = 0;
-  wrongAnswer = 0;
-  amountOfGuesses = 0;
-};
-
-randomize(students);
 let arrayOfImgLeft = [...students];
+randomize(students);
 
 let correctName;
 let selectedStudent;
 let highscore = 0;
 
 const handleOnClick = (e) => {
+  console.log(arrayOfImgLeft);
   amountOfGuesses++;
+  const allButtons = document.querySelectorAll(".buttonGuess");
+  allButtons.forEach((button) => button.classList.add("disabled"));
 
   if (e.target.dataset.user === correctName) {
     correctAnswer++;
     e.target.classList.add("correctStudent");
   } else {
     e.target.classList.add("wrongStudent");
-    const allButtons = document.querySelectorAll(".buttonGuess");
 
     allButtons.forEach((button) => {
       if (button.dataset.user === correctName) {
@@ -206,16 +201,13 @@ const handleOnClick = (e) => {
   }
 
   const interval = setInterval(() => {
-    let output;
-
     if (amountOfGuesses === 6) {
-      // we can haz highscore?
-
+      let output = "";
       // new highscore?
       if (correctAnswer > highscore) {
         highscore = correctAnswer;
         output = ` YAY NEW HIGHSCORE! ${highscore}  with this many correct answers ${correctAnswer}`;
-      } else {
+      } else if (correctAnswer <= highscore) {
         output = ` Sorry, no new highscore. Your current highscore is ${highscore}`;
       }
 
@@ -223,12 +215,11 @@ const handleOnClick = (e) => {
 
       restartGame.classList.add("show");
       startContainer.classList.add("hide");
-      clearInterval(interval);
     } else {
       newQuestion();
-      clearInterval(interval);
     }
-  }, 600);
+    clearInterval(interval);
+  }, 500);
 
   randomize(arrayOfImgLeft);
 };
@@ -236,7 +227,6 @@ const handleOnClick = (e) => {
 const newQuestion = () => {
   //selecting a student
   const arrayAnswer = arrayOfImgLeft.slice(0, 4);
-
   selectedStudent = arrayAnswer[0];
 
   arrayOfImgLeft = arrayOfImgLeft.filter((student) => {
@@ -245,18 +235,25 @@ const newQuestion = () => {
     }
   });
 
+  randomize(arrayAnswer);
+
   correctName = selectedStudent.name;
 
   //Showing img
   displayImg.setAttribute("src", selectedStudent.image);
-
-  randomize(arrayAnswer);
 
   buttonContainer.innerHTML = "";
   buttonContainer.innerHTML += arrayAnswer
     .map((student) => `<button data-user="${student.name}" class="btn buttonGuess">${student.name}</button>`)
     .join("");
   document.querySelectorAll(".buttonGuess").forEach((button) => button.addEventListener("click", handleOnClick));
+};
+
+//reset-function
+const reset = () => {
+  correctAnswer = 0;
+  wrongAnswer = 0;
+  amountOfGuesses = 0;
 };
 
 newQuestion();
@@ -268,5 +265,3 @@ restartGame.addEventListener("click", (e) => {
   startContainer.classList.remove("hide");
   restartGame.classList.remove("show");
 });
-
-//local storage

@@ -1,6 +1,6 @@
 body {
   background-color: rgb(216, 160, 229);
-  margin: 2%;
+  margin: 10%;
   font-family: arial;
 }
 
@@ -99,4 +99,8 @@ h1 {
     width: 60%;
     margin: auto;
   }
+}
+
+.disabled {
+  pointer-events: none;
 }
