@@ -159,7 +159,6 @@ const students = [
 
 //getting elements from HTML
 const displayImg = document.querySelector("#img-container");
-const buttonAll = document.querySelectorAll(".buttonGuess");
 const buttonContainer = document.querySelector("#button-container");
 const startContainer = document.querySelector("#start-container");
 const restartGame = document.querySelector("#restart-game");
@@ -185,7 +184,54 @@ let arrayOfImgLeft = [...students];
 
 let correctName;
 let selectedStudent;
-let highScore = 0;
+let highscore = 0;
+
+const handleOnClick = (e) => {
+  amountOfGuesses++;
+
+  if (e.target.dataset.user === correctName) {
+    correctAnswer++;
+    e.target.classList.add("correctStudent");
+  } else {
+    e.target.classList.add("wrongStudent");
+    const allButtons = document.querySelectorAll(".buttonGuess");
+
+    allButtons.forEach((button) => {
+      if (button.dataset.user === correctName) {
+        button.classList.add("correctStudent");
+      }
+    });
+
+    wrongAnswer++;
+  }
+
+  const interval = setInterval(() => {
+    let output;
+
+    if (amountOfGuesses === 6) {
+      // we can haz highscore?
+
+      // new highscore?
+      if (correctAnswer > highscore) {
+        highscore = correctAnswer;
+        output = ` YAY NEW HIGHSCORE! ${highscore}  with this many correct answers ${correctAnswer}`;
+      } else {
+        output = ` Sorry, no new highscore. Your current highscore is ${highscore}`;
+      }
+
+      congratz.innerHTML = " This is your result:  " + correctAnswer + " / " + amountOfGuesses + output;
+
+      restartGame.classList.add("show");
+      startContainer.classList.add("hide");
+      clearInterval(interval);
+    } else {
+      newQuestion();
+      clearInterval(interval);
+    }
+  }, 600);
+
+  randomize(arrayOfImgLeft);
+};
 
 const newQuestion = () => {
   //selecting a student
@@ -206,56 +252,15 @@ const newQuestion = () => {
 
   randomize(arrayAnswer);
 
-  //adding a name to all buttons in button container
-  buttonAll.forEach((button, index) => {
-    button.innerHTML = arrayAnswer[index].name;
-    button.setAttribute("data-user", arrayAnswer[index].name);
-  });
+  buttonContainer.innerHTML = "";
+  buttonContainer.innerHTML += arrayAnswer
+    .map((student) => `<button data-user="${student.name}" class="btn buttonGuess">${student.name}</button>`)
+    .join("");
+  document.querySelectorAll(".buttonGuess").forEach((button) => button.addEventListener("click", handleOnClick));
 };
 
 newQuestion();
 reset();
-
-buttonAll.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    amountOfGuesses++;
-
-    if (e.target.dataset.user === correctName) {
-      correctAnswer++;
-      e.target.classList.add("correctStudent");
-    } else {
-      e.target.classList.add("wrongStudent");
-      correctButton = buttonAll.forEach((button) => {
-        if (button.dataset.user === correctName) {
-          button.classList.add("correctStudent");
-        }
-      });
-      wrongAnswer++;
-    }
-
-    const interval = setInterval(() => {
-      e.target.classList.remove("correctStudent");
-      e.target.classList.remove("wrongStudent");
-
-      if (amountOfGuesses === 3) {
-        if (highScore < correctAnswer) {
-          highScore = correctAnswer;
-        }
-
-        congratz.innerHTML = " This is your result:  " + correctAnswer + " / " + amountOfGuesses;
-
-        restartGame.classList.add("show");
-        startContainer.classList.add("hide");
-        clearInterval(interval);
-      } else {
-        newQuestion();
-        clearInterval(interval);
-      }
-    }, 600);
-
-    randomize(arrayOfImgLeft);
-  });
-});
 
 restartGame.addEventListener("click", (e) => {
   newQuestion();
