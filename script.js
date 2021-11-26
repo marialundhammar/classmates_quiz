@@ -157,7 +157,7 @@ const students = [
   },
 ];
 
-//show image
+//getting elements from HTML
 const displayImg = document.querySelector("#img-container");
 const buttonAll = document.querySelectorAll(".buttonGuess");
 const buttonContainer = document.querySelector("#button-container");
@@ -165,7 +165,7 @@ const startContainer = document.querySelector("#start-container");
 const restartGame = document.querySelector("#restart-game");
 const congratz = document.querySelector("#restart-game p");
 
-//get random dude
+//randomize function
 let randomize = (arr) => {
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -173,10 +173,7 @@ let randomize = (arr) => {
   }
 };
 
-/* buttonAll = selectedStudents.map((student) => {
-    document.createElement("button");
-}) */
-
+//reset-function
 const reset = () => {
   correctAnswer = 0;
   wrongAnswer = 0;
@@ -184,22 +181,32 @@ const reset = () => {
 };
 
 randomize(students);
-const arrayOfImgLeft = students;
+let arrayOfImgLeft = [...students];
 
 let correctName;
 let selectedStudent;
+let highScore = 0;
 
 const newQuestion = () => {
-  //randomize students
-  selectedStudent = arrayOfImgLeft.shift();
-  correctName = selectedStudent.name;
-  correctImg = selectedStudent.image;
-  displayImg.setAttribute("src", selectedStudent.image);
+  //selecting a student
+  const arrayAnswer = arrayOfImgLeft.slice(0, 4);
 
-  const arrayAnswer = [selectedStudent, arrayOfImgLeft[1], arrayOfImgLeft[2], arrayOfImgLeft[3]];
+  selectedStudent = arrayAnswer[0];
+
+  arrayOfImgLeft = arrayOfImgLeft.filter((student) => {
+    if (student.name !== selectedStudent.name) {
+      return true;
+    }
+  });
+
+  correctName = selectedStudent.name;
+
+  //Showing img
+  displayImg.setAttribute("src", selectedStudent.image);
 
   randomize(arrayAnswer);
 
+  //adding a name to all buttons in button container
   buttonAll.forEach((button, index) => {
     button.innerHTML = arrayAnswer[index].name;
     button.setAttribute("data-user", arrayAnswer[index].name);
@@ -229,7 +236,12 @@ buttonAll.forEach((button) => {
     const interval = setInterval(() => {
       e.target.classList.remove("correctStudent");
       e.target.classList.remove("wrongStudent");
+
       if (amountOfGuesses === 3) {
+        if (highScore < correctAnswer) {
+          highScore = correctAnswer;
+        }
+
         congratz.innerHTML = " This is your result:  " + correctAnswer + " / " + amountOfGuesses;
 
         restartGame.classList.add("show");
