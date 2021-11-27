@@ -162,6 +162,7 @@ const displayImg = document.querySelector("#img-container");
 const buttonContainer = document.querySelector("#button-container");
 const startContainer = document.querySelector("#start-container");
 const restartGame = document.querySelector("#restart-game");
+const restartGameButton = document.querySelector("#restart-game-button");
 const resultEl = document.querySelector("#result");
 const highscoreEl = document.querySelector("#highscore");
 
@@ -262,7 +263,7 @@ const reset = () => {
 newQuestion();
 reset();
 
-restartGame.addEventListener("click", (e) => {
+restartGameButton.addEventListener("click", (e) => {
   newQuestion();
   reset();
   startContainer.classList.remove("hide");

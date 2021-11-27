@@ -27,6 +27,7 @@ body {
 }
 
 h1 {
+  font-size: 24px;
   margin: auto;
   color: #5449b1;
 }
@@ -88,6 +89,7 @@ h1 {
   background-size: 100%;
   height: 30rem;
   padding: 10%;
+  font-size: 16px;
 }
 
 /* #restart-game.show img {
