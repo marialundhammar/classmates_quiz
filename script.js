@@ -1,3 +1,4 @@
+//array of students with name and img
 const students = [
   {
     name: "Adi Dzocaj",
@@ -174,19 +175,24 @@ let randomize = (arr) => {
   }
 };
 
+//copy the array of students
 let arrayOfImgLeft = [...students];
-randomize(students);
 
+//create some variable
 let correctName;
 let selectedStudent;
 let highscore = 0;
 
+//click handler
 const handleOnClick = (e) => {
-  console.log(arrayOfImgLeft);
+  //keeping track of amount of guesses
   amountOfGuesses++;
+
+  //adding class disabled to all buttons
   const allButtons = document.querySelectorAll(".buttonGuess");
   allButtons.forEach((button) => button.classList.add("disabled"));
 
+  //Checking if correct button is pushed, if correct add class correctStudent, if not add class wrongStudent but also show correct student
   if (e.target.dataset.user === correctName) {
     correctAnswer++;
     e.target.classList.add("correctStudent");
@@ -202,23 +208,29 @@ const handleOnClick = (e) => {
     wrongAnswer++;
   }
 
+  //slow down the next question action so we are able to see if the guesss was correct or not
   const interval = setInterval(() => {
-    if (amountOfGuesses === 6) {
+    //if game is finished?
+    if (amountOfGuesses === 10) {
       let output = "";
-      // new highscore?
+      //new highscore?
       if (correctAnswer > highscore) {
         highscore = correctAnswer;
-        output = `🥳🥳 WIHOO, new highscore!! 🥳🥳 You guessed this many times correct: ${highscore}`;
+        output = `🥳🥳 WIHOO, new highscore!! 🥳🥳 You guessed ${highscore} times correct`;
       } else if (correctAnswer <= highscore) {
         output = `💩 Sorry, no new highscore.... The current highscore is ${highscore}`;
       }
 
+      //printing the result + highscore out
       resultEl.innerHTML = `This is your result:  ${correctAnswer}  / ${amountOfGuesses}!!`;
 
       highscoreEl.innerHTML = `${output}`;
 
+      //adding classlist show and hide so
       restartGame.classList.add("show");
       startContainer.classList.add("hide");
+
+      //if game is not finished, show next question
     } else {
       newQuestion();
     }
@@ -228,11 +240,15 @@ const handleOnClick = (e) => {
   randomize(arrayOfImgLeft);
 };
 
+//generating a new question
 const newQuestion = () => {
   //selecting a student
+  randomize(arrayOfImgLeft);
   const arrayAnswer = arrayOfImgLeft.slice(0, 4);
+  randomize(arrayAnswer);
   selectedStudent = arrayAnswer[0];
 
+  //filtring out the students that has not yet been shown
   arrayOfImgLeft = arrayOfImgLeft.filter((student) => {
     if (student.name !== selectedStudent.name) {
       return true;
@@ -243,9 +259,10 @@ const newQuestion = () => {
 
   correctName = selectedStudent.name;
 
-  //Showing img
+  //Showing image
   displayImg.setAttribute("src", selectedStudent.image);
 
+  //creating buttons
   buttonContainer.innerHTML = "";
   buttonContainer.innerHTML += arrayAnswer
     .map((student) => `<button data-user="${student.name}" class="btn buttonGuess">${student.name}</button>`)
@@ -263,6 +280,7 @@ const reset = () => {
 newQuestion();
 reset();
 
+//Button that restarts the game
 restartGameButton.addEventListener("click", (e) => {
   newQuestion();
   reset();
