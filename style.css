@@ -1,7 +1,7 @@
 body {
-  background-color: rgb(216, 160, 229);
+  background-color: rgb(146, 137, 228);
   margin: 10%;
-  font-family: arial;
+  font-family: "Roboto Mono", monospace;
 }
 
 #start-container {
@@ -23,33 +23,45 @@ body {
 #guess-container img {
   width: 80%;
   margin: auto;
+  border-radius: 8px;
 }
 
 h1 {
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+  color: #5449b1;
 }
 
 #button-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 4% 0 0 0;
+  margin: auto;
+  width: 60%;
 }
 
 .btn {
-  border-radius: 6%;
-  padding: 2%;
+  border-radius: 8px;
+  padding: 4%;
   margin: 1%;
-  background: lightgray;
+  background: rgb(206, 160, 243);
+  border: none;
+  font-family: "Roboto Mono", monospace;
+}
+
+.btn:hover {
+  /* border: 4px solid rgb(231, 132, 215); */
+  opacity: 0.9;
+  box-shadow: 2px 4px #cc79b9;
 }
 
 .wrongStudent {
-  background-color: red !important;
+  background-color: rgb(245, 101, 101);
+  border: 4px solid rgb(245, 101, 101);
 }
 
 .correctStudent {
-  background-color: green !important;
+  background-color: rgb(57, 163, 57);
+  border: 4px solid rgb(57, 163, 57);
 }
 
 #button-container.hide {
@@ -66,14 +78,25 @@ h1 {
 
 #restart-game.show {
   display: flex;
+  flex-direction: column;
+  margin: auto;
+  font-family: "Roboto Mono", monospace;
+  background-image: url("assets/images/rabbit.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-size: 100%;
+  height: 30rem;
+  padding: 10%;
 }
+
+/* #restart-game.show img {
+  width: 100%;
+  margin: auto;
+} */
 
 /* here starts @media quieries for iPad */
 @media only screen and (min-width: 768px) {
-  body {
-    background-color: lightcoral;
-  }
-
   #button-container {
     display: flex;
     flex-direction: row;
@@ -83,14 +106,16 @@ h1 {
   .btn {
     width: 40%;
   }
+
+  #restart-game.show {
+    width: 80%;
+    background-size: 100%;
+  }
 }
 
 /* Here starts media queries for desktop */
 
 @media only screen and (min-width: 992px) {
-  body {
-    background-color: lightcyan;
-  }
   .btn {
     width: 20%;
   }

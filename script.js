@@ -162,7 +162,8 @@ const displayImg = document.querySelector("#img-container");
 const buttonContainer = document.querySelector("#button-container");
 const startContainer = document.querySelector("#start-container");
 const restartGame = document.querySelector("#restart-game");
-const congratz = document.querySelector("#restart-game p");
+const resultEl = document.querySelector("#result");
+const highscoreEl = document.querySelector("#highscore");
 
 //randomize function
 let randomize = (arr) => {
@@ -206,12 +207,14 @@ const handleOnClick = (e) => {
       // new highscore?
       if (correctAnswer > highscore) {
         highscore = correctAnswer;
-        output = ` YAY NEW HIGHSCORE! ${highscore}  with this many correct answers ${correctAnswer}`;
+        output = `🥳🥳 WIHOO, new highscore!! 🥳🥳 You guessed this many times correct: ${highscore}`;
       } else if (correctAnswer <= highscore) {
-        output = ` Sorry, no new highscore. Your current highscore is ${highscore}`;
+        output = `💩 Sorry, no new highscore.... The current highscore is ${highscore}`;
       }
 
-      congratz.innerHTML = " This is your result:  " + correctAnswer + " / " + amountOfGuesses + output;
+      resultEl.innerHTML = `This is your result:  ${correctAnswer}  / ${amountOfGuesses}!!`;
+
+      highscoreEl.innerHTML = `${output}`;
 
       restartGame.classList.add("show");
       startContainer.classList.add("hide");
