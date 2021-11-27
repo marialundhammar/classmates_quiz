@@ -216,13 +216,13 @@ const handleOnClick = (e) => {
       //new highscore?
       if (correctAnswer > highscore) {
         highscore = correctAnswer;
-        output = `🥳🥳 WIHOO, new highscore!! 🥳🥳 You guessed ${highscore} times correct`;
+        output = `🥳 WIHOO, new highscore!! 🥳 You guessed ${highscore} times correct`;
       } else if (correctAnswer <= highscore) {
         output = `💩 Sorry, no new highscore.... The current highscore is ${highscore}`;
       }
 
       //printing the result + highscore out
-      resultEl.innerHTML = `This is your result:  ${correctAnswer}  / ${amountOfGuesses}!!`;
+      resultEl.innerHTML = `This is your result:  ${correctAnswer}/${amountOfGuesses}!!`;
 
       highscoreEl.innerHTML = `${output}`;
 

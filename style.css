@@ -1,6 +1,6 @@
 body {
   background-color: rgb(146, 137, 228);
-  margin: 6%;
+
   font-family: "Roboto Mono", monospace;
 }
 
@@ -93,16 +93,24 @@ h1 {
 #restart-game.show {
   display: flex;
   flex-direction: column;
-  margin: auto;
+  margin: 0;
   font-family: "Roboto Mono", monospace;
   background-image: url("assets/images/rabbit.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
-  background-size: 100%;
-  height: 30rem;
-  padding: 10%;
-  font-size: 16px;
+  background-position: 60% 80%;
+  background-size: 150%;
+  height: 40rem;
+  font-size: 24px;
+}
+
+#result {
+  width: 80%;
+  margin: 4%;
+}
+#highscore {
+  width: 80%;
+  margin: 4%;
 }
 
 /* here starts @media quieries for iPad */
