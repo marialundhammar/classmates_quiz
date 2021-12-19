@@ -207,7 +207,6 @@ const handleOnClick = (e) => {
 
     wrongAnswer++;
   }
-
   //slow down the next question action so we are able to see if the guesss was correct or not
   const interval = setInterval(() => {
     //if game is finished?
@@ -249,11 +248,7 @@ const newQuestion = () => {
   selectedStudent = arrayAnswer[0];
 
   //filtring out the students that has not yet been shown
-  arrayOfImgLeft = arrayOfImgLeft.filter((student) => {
-    if (student.name !== selectedStudent.name) {
-      return true;
-    }
-  });
+  arrayOfImgLeft = arrayOfImgLeft.filter((student) => student.name !== selectedStudent.name);
 
   randomize(arrayAnswer);
 
@@ -279,11 +274,11 @@ const reset = () => {
 
 newQuestion();
 reset();
-
 //Button that restarts the game
 restartGameButton.addEventListener("click", (e) => {
   newQuestion();
   reset();
   startContainer.classList.remove("hide");
   restartGame.classList.remove("show");
+  arrayOfImgLeft = [...students];
 });
